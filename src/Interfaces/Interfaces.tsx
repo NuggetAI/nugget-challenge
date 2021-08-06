@@ -16,3 +16,11 @@ export interface IButtonProps {
 }
 
 export interface IJobsProps {}
+
+export interface IRecentVisitsData {
+  img: string
+  location: string
+  salary: string
+  status: string
+}
+
