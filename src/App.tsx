@@ -1,8 +1,7 @@
-import React from 'react'
-import './App.css'
+import React from "react";
 
 function App() {
-  return <div className="App"></div>
+  return <p className="text-red-500 underline">Hello world!</p>;
 }
 
-export default App
+export default App;
