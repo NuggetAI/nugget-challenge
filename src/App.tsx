@@ -10,7 +10,11 @@ function App() {
       <button className="btn btn-primary" onClick={() => setOpen(true)}>
         Open Modal
       </button>
-      <VerificationModal open={open} onOpenChange={() => setOpen(false)} />
+      <VerificationModal
+        open={open}
+        onOpenChange={() => setOpen(false)}
+        sendCode={() => console.log('code sent')}
+      />
     </div>
   )
 }

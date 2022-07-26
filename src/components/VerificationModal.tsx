@@ -10,6 +10,11 @@ export interface VerificationModalProps {
    * Callback function to be called when the modal is open and closed.
    */
   onOpenChange: (open: boolean) => void
+
+  /**
+   * Callback function to resend code.
+   */
+  sendCode: () => void
 }
 
 const BACKSPACE_KEY = 'Backspace'
@@ -22,9 +27,13 @@ type InputType = number | null
 export const VerificationModal: React.FC<VerificationModalProps> = ({
   open = false,
   onOpenChange,
+  sendCode,
 }) => {
   const inputRefs = React.useRef<HTMLInputElement[]>([])
   const [code, setCode] = React.useState<InputType[]>([])
+
+  // Check resend code sent.
+  const [codeResent, setCodeResent] = React.useState(false)
 
   const changeInputFocus = (index: number) => {
     const ref = inputRefs.current[index]
@@ -33,7 +42,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
     }
   }
 
-  const onInputChange = (value: number | null, index: number) => {
+  const updateCode = (value: number | null, index: number) => {
     const temp = [...code]
     temp[index] = value
     setCode([...temp])
@@ -45,7 +54,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
     switch (key) {
       case BACKSPACE_KEY:
         event.preventDefault()
-        onInputChange(null, index)
+        updateCode(null, index)
         changeInputFocus(index - 1)
         break
       case RIGHT_KEY:
@@ -64,7 +73,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
     if (e.target.value.length > 1) return
     const value = Number(e.target.value)
     if (!isNaN(value)) {
-      onInputChange(value, index)
+      updateCode(value, index)
       if (index < CODE_LENGTH - 1) {
         changeInputFocus(index + 1)
       }
@@ -75,6 +84,16 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
     const pasteValue = e.clipboardData.getData('Text')
     if (pasteValue.length === CODE_LENGTH && !isNaN(Number(pasteValue))) {
       setCode([...pasteValue.split('').map((e: string) => Number(e))])
+    }
+  }
+
+  const onResendCode = () => {
+    try {
+      sendCode()
+      setCodeResent(true)
+    } catch (error) {
+      // TODO: Error handling here
+      setCodeResent(false)
     }
   }
 
@@ -104,7 +123,17 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
           </div>
           <div className="flex mt-6 space-x-2">
             <p>Didn't receive a code?</p>
-            <span className=" text-blue-500  cursor-pointer">Resend</span>
+            <span className=" text-blue-500  cursor-pointer" onClick={onResendCode}>
+              Resend
+            </span>
+            {codeResent && (
+              <div className="flex items-center">
+                <span className="material-icons" style={{ fontSize: '12px', color: '#1EC685' }}>
+                  check_circle_outline
+                </span>
+                <span className=" text-gray-400 text-sm">sent</span>
+              </div>
+            )}
           </div>
           <style>
             {`
