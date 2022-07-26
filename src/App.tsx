@@ -14,6 +14,7 @@ function App() {
         open={open}
         onOpenChange={() => setOpen(false)}
         sendCode={() => console.log('code sent')}
+        verifyCode={(code) => console.log('Verify Code', code)}
       />
     </div>
   )

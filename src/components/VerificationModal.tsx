@@ -15,6 +15,11 @@ export interface VerificationModalProps {
    * Callback function to resend code.
    */
   sendCode: () => void
+
+  /**
+   * Verify callback function.
+   */
+  verifyCode: (code: string) => void
 }
 
 const BACKSPACE_KEY = 'Backspace'
@@ -28,6 +33,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
   open = false,
   onOpenChange,
   sendCode,
+  verifyCode,
 }) => {
   const inputRefs = React.useRef<HTMLInputElement[]>([])
   const [code, setCode] = React.useState<InputType[]>([])
@@ -96,6 +102,17 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
       setCodeResent(false)
     }
   }
+
+  // TODO: Move this function to somewhere named utils.
+  const isFull = (object: any[]) => object.length === CODE_LENGTH &&
+   object.every((x) => x !== null && x !== undefined) ;
+
+  React.useEffect(() => {
+    if (isFull(code)) {
+      const verificationCode = code.join('');
+      verifyCode(verificationCode)
+    }
+  }, [code]) // eslint-disable-line
 
   return (
     <>

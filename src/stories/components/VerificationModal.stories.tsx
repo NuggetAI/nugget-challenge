@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { within } from '@storybook/testing-library'
+import { action } from '@storybook/addon-actions'
 import { withDesign } from 'storybook-addon-designs'
-
+import React from 'react'
 import { VerificationModal } from '../../components/VerificationModal'
 
 export default {
@@ -21,7 +22,8 @@ const Template: ComponentStory<typeof VerificationModal> = (args) => <Verificati
 export const TestVerifyModal = Template.bind({})
 
 TestVerifyModal.args = {
-  open: true,
-  onOpenChange: (open: boolean) => console.log('modal closed'),
-  sendCode: () => console.log('code sent'),
+  open: false,
+  onOpenChange: (open: boolean) => action('Handle modal open change.')(),
+  sendCode: () => action('send new verification code')(),
+  verifyCode: (code: string) => action('verify code')(code),
 }
