@@ -8,6 +8,8 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@storybook/preset-create-react-app",
+    "@storybook/addon-storysource",
+    "storybook-addon-designs",
     {
       name: '@storybook/addon-postcss',
       options: {

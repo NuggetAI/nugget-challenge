@@ -1,8 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { within } from '@storybook/testing-library'
 import { action } from '@storybook/addon-actions'
 import { withDesign } from 'storybook-addon-designs'
-import React from 'react'
 import { VerificationModal } from '../../components/VerificationModal'
 
 export default {
