@@ -58,6 +58,13 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
     }
   }
 
+  const onPasteNumber = (e: React.ClipboardEvent) => {
+    const pasteValue = e.clipboardData.getData('Text')
+    if (pasteValue.length === CODE_LENGTH && !isNaN(Number(pasteValue))) {
+      setCode([...pasteValue.split('').map((e: string) => Number(e))])
+    }
+  }
+
   return open ? (
     <div className="relative m-auto px-8 py-10 bg-white  max-w-xl  z-20  transform translate-y-1/2 rounded-lg shadow-md">
       <p className="text-gray-700  font-bold text-2xl">Confirm your number</p>
@@ -76,6 +83,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
             onKeyDown={(e) => onKeyDown(e, i)}
             value={code[i] || ''}
             onChange={(e) => onChange(e, i)}
+            onPaste={onPasteNumber}
           ></input>
         ))}
       </div>
